@@ -2,7 +2,8 @@ import os
 import sys
 import shutil
 
-VERSION = "0.5"
+VERSION = "0.6"
+SUPP_LANG = ["java","py","c","cpp","cs","js","go","rs","html"]
 
 def check_dir(dir_name):
     sub_dirs =[name for name in os.listdir("./") if os.path.isdir(os.path.join("./", name))]
@@ -15,7 +16,7 @@ def check_file(file_name):
     return file_name in sub_files
 
 def check_lanuage(lang):
-    lang_list = ["java","py","c","cpp","cs","js","html"]
+    lang_list = SUPP_LANG
 
     return lang in lang_list
 
@@ -26,37 +27,37 @@ def write_file(filename,content):
 
 def get_hello_world(filename,lang):
 
-    if lang == "java":
-        return ("class "+filename+" {\n "
+    if lang == SUPP_LANG[0]:
+        return ("class "+filename[0].upper() + filename[1::]+" {\n "
                 "\tpublic static void main(String[] args) {\n"
                 "\t\tSystem.out.println(\"Hello, World!\");\n"
                 "\t}\n"
                 "}")
 
-    if lang == "py":
+    if lang == SUPP_LANG[1]:
         return ("def main():\n"
                 "\tprint(\"Hello world!\")\n\n"
                 "if __name__ == \"__main__\":\n"
                 "\tmain()")
 
-    if lang == "c":
+    if lang == SUPP_LANG[2]:
         return ("#include <stdio.h>\n"
                 "int main() {\n"
                 "\tprintf(\"Hello, World!\");\n"
                 "\treturn 0;\n"
                 "}")
 
-    if lang == "cpp":
+    if lang == SUPP_LANG[3]:
         return ("#include <iostream>\n"
                 "int main() {\n"
                 "\tstd::cout << \"Hello World!\";\n"
                 "\treturn 0;\n"
                 "}")
 
-    if lang == "cs":
-        return ("namespace "+filename+"\n"
+    if lang == SUPP_LANG[4]:
+        return ("namespace "+filename[0].upper() + filename[1::]+"Namespace\n"
                 "{\n"
-                "\tclass "+filename+" {\n"
+                "\tclass "+filename[0].upper() + filename[1::]+" {\n"
                 "\t\tstatic void Main(string[] args)\n"
                 "\t\t{\n"
                 "\t\t\tSystem.Console.WriteLine(\"Hello World!\");\n"
@@ -64,9 +65,19 @@ def get_hello_world(filename,lang):
                 "\t}\n"
             "}")
 
-    if lang == "js":
+    if lang == SUPP_LANG[5]:
         return "console.log(\"Hello world!\")"
-    if lang == "html":
+    if lang == SUPP_LANG[6]:
+        return ("package main\n\n"
+                "import \"fmt\"\n\n"
+                "func main() {\n"
+                "\tfmt.Println(\"Hello world!\")\n"
+                "}")
+    if lang == SUPP_LANG[7]:
+        return ("fn main() {\n"
+                "\tprintln!(\"Hello world!\");\n"
+                "}")
+    if lang == SUPP_LANG[8]:
         return ("<!DOCTYPE html>\n"
                 "<html lang=\"en\">\n"
                 "<head>\n"
@@ -155,20 +166,27 @@ def handle_arguments(arg):
 
     if arg[1] == "-help":
         print("-sl\t - List the supported languages")
-        print("-cr\t - Create a new project (mkproj -cr [your project name] [programming language])")
-        print("-crf\t - Create a new file (mkproj -crf [your file name] [programming language])")
+        print("-cr\t - Create a new project (mkproj -cr [your project name] [programming language extension])")
+        print("-crf\t - Create a new file (mkproj -crf [your file name] [programming language extension])")
         print("-v\t - Version")
         sys.exit()
 
     if arg[1] == "-sl":
-        lang_list = ["java","py","c","cpp","cs","js","html"]
+        lang_list = SUPP_LANG
+        print("Supported languages:")
+        print("Language\t Extension")
+        print("-"*15)
         print("Java\t\t java")
         print("Python\t\t py")
         print("C\t\t c")
         print("C++\t\t cpp")
         print("C#\t\t cs")
         print("JavaScript\t js")
+        print("Go\t\t go")
+        print("Rust\t\t rs")
         print("HTML\t\t html")
+        print("-"*15)
+
         sys.exit()
 
     if arg[1] == "-cr":
@@ -197,6 +215,7 @@ def handle_arguments(arg):
 
 
 
+
     if arg[1][0] == "-":
         print(arg[1],"is an unknown command use -help")
         sys.exit()
@@ -213,7 +232,7 @@ def handle_arguments(arg):
 
 def main():
     handle_arguments(sys.argv)
-
+    
 
 
 
