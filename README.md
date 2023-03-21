@@ -1,10 +1,39 @@
-# What is it for
-This script generates a hello world project(java,py,c,cpp,cs,js,go,rs,rb,kt,ts,lua,lsp,scala,swift,php,html)
+#Code Generator for "Hello, World!" in multiple programming languages
+This code generator creates a "Hello, World!" program in various programming languages. The supported languages are:
 
-# How to use
-Open cmd where you downloaded the script<br>
-Run the "pip install pyintaller" command<br>
-Next run "pyinstaller -F "mkproj.py"" command<br>
-and add the dist folder to the user path variables<br>
+-Java
+-Python
+-C
+-C++
+-C#
+-JavaScript
+-Go
+-Rust
+-Ruby
+-Kotlin
+-TypeScript
+-Lua
+-Lisp
+-Scala
+-Swift
+-PHP
+-HTML
 
-Finally use mkproj command in te cmd (mkproj -help)
+
+##Installation
+To install the program, you need to have Python installed on your computer. You can download Python from the [official website](https://www.python.org/downloads/).
+
+After installing Python, you need to install pyinstaller using the pip package manager. Open your terminal or command prompt and run the following command:
+
+`pip install pyinstaller`
+
+Once pyinstaller is installed, you can build the executable file using the following command:
+
+`pyinstaller -F mkpoj.py`
+
+This command will generate a folder named mkproj that contains the executable file for your operating system.
+
+##Usage
+To use the program, simply run the executable file generated in the dist folder. The program will ask you to choose a programming language from the supported languages list, and then it will generate the "Hello, World!" program in the chosen language.
+
+Note: You need to add the path of the dist folder to your system's environmental variables for the program to work properly.
