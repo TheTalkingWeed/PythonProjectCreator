@@ -1,4 +1,4 @@
-#Code Generator for "Hello, World!" in multiple programming languages
+# Code Generator for "Hello, World!" in multiple programming languages
 This code generator creates a "Hello, World!" program in various programming languages. The supported languages are:
 
 -Java
@@ -20,7 +20,7 @@ This code generator creates a "Hello, World!" program in various programming lan
 -HTML
 
 
-##Installation
+## Installation
 To install the program, you need to have Python installed on your computer. You can download Python from the [official website](https://www.python.org/downloads/).
 
 After installing Python, you need to install pyinstaller using the pip package manager. Open your terminal or command prompt and run the following command:
@@ -33,7 +33,7 @@ Once pyinstaller is installed, you can build the executable file using the follo
 
 This command will generate a folder named mkproj that contains the executable file for your operating system.
 
-##Usage
+## Usage
 To use the program, simply run the executable file generated in the dist folder. The program will ask you to choose a programming language from the supported languages list, and then it will generate the "Hello, World!" program in the chosen language.
 
 Note: You need to add the path of the dist folder to your system's environmental variables for the program to work properly.
