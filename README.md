@@ -1,29 +1,29 @@
 # Code Generator for "Hello, World!" in multiple programming languages
 This code generator creates a "Hello, World!" program in various programming languages. The supported languages are:
 
--Java
--Python
--C
--C++
--C#
--JavaScript
--Go
--Rust
--Ruby
--Kotlin
--TypeScript
--Lua
--Lisp
--Scala
--Swift
--PHP
--HTML
+- Java
+- Python
+- C
+- C++
+- C#
+- JavaScript
+- Go
+- Rust
+- Ruby
+- Kotlin
+- TypeScript
+- Lua
+- Lisp
+- Scala
+- Swift
+- PHP
+- HTML
 
 
 ## Installation
 To install the program, you need to have Python installed on your computer. You can download Python from the [official website](https://www.python.org/downloads/).
 
-After installing Python, you need to install pyinstaller using the pip package manager. Open your terminal or command prompt and run the following command:
+After installing Python, you need to install *** pyinstaller ***  using the pip package manager. Open your terminal or command prompt and run the following command:
 
 `pip install pyinstaller`
 
