@@ -1,5 +1,5 @@
 # What is it for
-This script generates a hello world project(java,python,c,cpp,cs,js)
+This script generates a hello world project(java,python,c,cpp,cs,js,go,rust,html)
 
 # How to use
 Open cmd where you downloaded the script<br>
