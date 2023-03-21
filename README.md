@@ -34,7 +34,7 @@ Once `pyinstaller` is installed, you can build the executable file using the fol
 This command will generate a two folders named `build` and `dist` and a file named `mkproj.spec`.The `dist` folder contains the executable file for your operating system.
 
 ## Usage
-To use the program, simply run the executable file generated in the "dist" folder.
+To use the program, simply run the `mkproj` command in the terminal.
 
 ### Note:
  You need to add the path of the dist folder to your system's environmental variables for the program to work properly.
