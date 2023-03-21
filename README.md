@@ -39,7 +39,7 @@ To use the program, simply run the executable file generated in the "dist" folde
 ### Note:
  You need to add the path of the dist folder to your system's environmental variables for the program to work properly.
  
-1. Copy the path \n
+1. Copy the path 
   ![1](https://user-images.githubusercontent.com/61713353/226621223-ca6f5bd8-180c-49ec-9185-e4224b0676c4.png)
 2. Open Edit the system environment variables
   ![2](https://user-images.githubusercontent.com/61713353/226621252-2a973ab7-10f7-4d7e-994b-7f2da6eaf496.png)
