@@ -2,9 +2,29 @@ import os
 import sys
 import shutil
 
-VERSION = "Mkproj version 0.8"
+VERSION = "Mkproj version 0.9"
 SUPP_LANG = ["java","py","c","cpp","cs","js","go","rs","rb","kt","ts","lua","lsp","scala","swift","php","html",]
-COMMAND_LINE_ARGS = ["-help","-cr","-crf","-diradd","-fileadd","-sl","-v","-creator"]
+COMMAND_LINE_ARGS = ["-help","-cr","-crf","-diradd","-fileadd","-sl","-v","-creator","-cleancode"]
+
+COMMENT_SIGNS = {
+    'java' : ('//','/*','*/'),
+    'py' : ('#'),
+    'c' : ('//','/*','*/'),
+    'c++' : ('//','/*','*/'),
+    'c#' : ('//','/*','*/'),
+    'js' : ('//','/*','*/'),
+    'go' : ('//','/*','*/'),
+    'rs' : ('//','/*','*/'),
+    'rb' : ('#','=begin','=end'),
+    'kt' : ('//','/*','*/'),
+    'ts' : ('//','/*','*/'),
+    'lua' : ('--'),
+    'lsp' : (';'),
+    'scala' : ('//','/*','*/'),
+    'swift' : ('//','/*','*/'),
+    'php' : ('//','/*','*/','#'),
+}
+
 
 SUPP_LANG_HELP = """
 Supported languages:
@@ -30,6 +50,8 @@ HTML        html
 ---------------------
 """
 
+
+
 HELP_TEXT = """
 mkproj - Generates a project with a hello world program in the specified language
 Command line arguments:
@@ -43,6 +65,10 @@ Command line arguments:
     -sl\t\tShow supported languages (mkproj -sl)    
     -v\t\tShow the version of mkproj (mkproj -v)
     -creator\tShow the creator of mkproj (mkproj -creator)
+    -cleancode\tRemove all single line comments from a file (mkproj -cleancode [file name])
+    \t\t(-mkproj -cleancode [file name] [copy to file name])-copy the cleaned code to a new file.
+    \t\tIt works for the supported languages (mkproj -sl) exept for html.
+    \t\tMulti line comments are not supported yet :( But im working on it. 
 """
 
 CREATOR_TEXT = """
@@ -71,6 +97,9 @@ DIR_EXISTS = "Directory already exists."
 DIR_CREATED = "Directory has been created."
 DIR_NOT_EXISTS = "Directory doesn't exists."
 FILE_CREATED = "File has been created."
+NO_FILE_GIVEN= "No file name given"
+FILE_CLEANED = "The single line comments have been removed from the file"
+NO_FILE = "There is no file named: "
 
 JAVA_HELLO = """
 public class main_class_name {
@@ -218,6 +247,12 @@ def check_file(file_name):
 def check_lanuage(lang):
     return lang in SUPP_LANG
 
+def read_file(filename):
+    with open(filename,'r') as f:
+        contents = f.read().splitlines()
+    return contents 
+
+
 def write_file(filename,content):
     with open(filename,"w") as f:
         f.write(content)
@@ -329,6 +364,26 @@ def create_proj(name,lang):
     create_source_code(lang, path,class_name)
     print(name,PROJECT_CREATED)
 
+def check_for_singleline_comment(comment,lang):
+    for i in range(len(comment)):
+        if not comment[::-1].endswith(COMMENT_SIGNS[lang][0]):
+            return False    
+        elif comment[::-1].endswith(COMMENT_SIGNS[lang][0]) :
+            return True
+    return False
+
+def fixfile(fromfile,tofile='',lang=''):
+    inputFromFile = read_file(fromfile)
+    tofile = tofile if tofile != '' else fromfile
+    output = []
+    for i in inputFromFile:
+        if  len(i) == 0 :
+            output.append(i)
+        elif  not check_for_singleline_comment(i.strip(),lang): 
+            output.append(i)
+
+    write_file(tofile,"\n".join(output))
+
 def handle_arguments(arg):
 
     if len(arg)-1 == 0:
@@ -402,6 +457,25 @@ def handle_arguments(arg):
 
     if arg[1] == COMMAND_LINE_ARGS[7]: # -creator
         print(CREATOR_TEXT)
+        sys.exit()
+    
+    if arg[1] == COMMAND_LINE_ARGS[8]: # -cleancode
+        if len(arg) == 2:
+            print(NO_FILE_GIVEN)
+        elif len(arg) == 3:
+            if check_file(arg[2]):
+                fixfile(arg[2],"",arg[2].split(".")[1])
+                print(FILE_CLEANED)
+            else:
+                print(NO_FILE,arg[2])
+        elif len(arg) == 4:
+            if check_file(arg[2]):
+                fixfile(arg[2],arg[3],arg[2].split(".")[1])
+                print(FILE_CLEANED)
+            else:
+                print(NO_FILE,arg[2])
+
+
         sys.exit()
 
     if arg[1] not in COMMAND_LINE_ARGS:
