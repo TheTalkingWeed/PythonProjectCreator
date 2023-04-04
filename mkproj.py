@@ -2,9 +2,9 @@ import os
 import sys
 import shutil
 
-VERSION = "Mkproj version 0.9"
-SUPP_LANG = ["java","py","c","cpp","cs","js","go","rs","rb","kt","ts","lua","lsp","scala","swift","php","html",]
-COMMAND_LINE_ARGS = ["-help","-cr","-crf","-diradd","-fileadd","-sl","-v","-creator","-cleancode"]
+VERSION = "Mkproj version 1.0"
+SUPP_LANG = ["java","py","c","cpp","cs","js","go","rs","rb","kt","ts","lua","lsp","scala","swift","php","html"]
+COMMAND_LINE_ARGS = ["-help","-cr","-crf","-diradd","-fileadd","-sl","-v","-creator","-cc","-txt"]
 
 COMMENT_SIGNS = {
     'java' : ('//','/*','*/'),
@@ -61,14 +61,17 @@ Command line arguments:
     -crf\tCreate a  new file (mkproj -crf [your file name] [programming language extension])
     -diradd\tAdd a directory to your project (mkproj -diradd [directory name])
     \t\t (mkproj -diradd [root directory name] [directory name])
+
     -fileadd\tAdd an empty file to your project (mkproj -fileadd [file name] [programming language extension])
     -sl\t\tShow supported languages (mkproj -sl)    
     -v\t\tShow the version of mkproj (mkproj -v)
     -creator\tShow the creator of mkproj (mkproj -creator)
-    -cleancode\tRemove all single line comments from a file (mkproj -cleancode [file name])
+    -cc\t\tRemove all single line comments from a file (mkproj -cc [file name])
     \t\t(-mkproj -cleancode [file name] [copy to file name])-copy the cleaned code to a new file.
     \t\tIt works for the supported languages (mkproj -sl) exept for html.
     \t\tMulti line comments are not supported yet :( But im working on it. 
+
+    -txt\tAdd a text file(mkproj -txt [file name])
 """
 
 CREATOR_TEXT = """
@@ -89,7 +92,7 @@ PROJECT_CREATED = "project has been made"
 PROJECT_CANCELED = "Yout project wasn't created"
 NO_COMMANDLINE_ARGS = "No command line arguments try -help"
 NO_LANG = "There is no supported language named: "
-MISSING_COMMANDLINE_AG = "Missing command line arguments use -help"
+MISSING_COMMANDLINE_ARG = "Missing command line arguments use -help"
 UNKNOWN_COMMAND = " is an unknown command use -help"
 LANG_SELECT = "Please select a language,to see the supported languages use \"mkproj -sl\" "
 MANY_ARGS = "To mutch arguments try -help"
@@ -105,8 +108,8 @@ JAVA_HELLO = """
 public class main_class_name {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
-        }
     }
+}
 """
 PYTHNO_HELLO = """
 def main():
@@ -261,7 +264,7 @@ def write_file(filename,content):
 def get_hello_world(filename,lang):
 
     if lang == SUPP_LANG[0]: # Java code
-        return JAVA_HELLO.replace("main_class_name",filename[0].upper() + filename[1::])
+        return JAVA_HELLO.replace("main_class_name",filename)
 
     if lang == SUPP_LANG[1]: # Python code
         return PYTHNO_HELLO
@@ -273,7 +276,7 @@ def get_hello_world(filename,lang):
         return CPP_HELLO
 
     if lang == SUPP_LANG[4]: # C# code
-        return CS_HELLO.replace("main_class_name",filename[0].upper() + filename[1::])
+        return CS_HELLO.replace("main_class_name",filename)
 
     if lang == SUPP_LANG[5]: # JavaScript code
         return JS_HELLO
@@ -300,7 +303,7 @@ def get_hello_world(filename,lang):
         return LISP_HELLO
     
     if lang == SUPP_LANG[13]:# Scala code
-        return SCALA_HELLO.replace("name_of_object",filename[0].upper() + filename[1::])
+        return SCALA_HELLO.replace("name_of_object",filename)
     
     if lang == SUPP_LANG[14]:# Swift code
         return SWIFT_HELLO
@@ -365,11 +368,10 @@ def create_proj(name,lang):
     print(name,PROJECT_CREATED)
 
 def check_for_singleline_comment(comment,lang):
-    for i in range(len(comment)):
-        if not comment[::-1].endswith(COMMENT_SIGNS[lang][0]):
-            return False    
-        elif comment[::-1].endswith(COMMENT_SIGNS[lang][0]) :
-            return True
+    print(comment,end='?\n')
+    print(len(comment))
+    if comment[0] == COMMENT_SIGNS[lang][0]:
+        return True
     return False
 
 def fixfile(fromfile,tofile='',lang=''):
@@ -404,7 +406,7 @@ def handle_arguments(arg):
                 create_proj(arg[2],arg[3])
             else: print(NO_LANG ,arg[3])
         else:
-            print(MISSING_COMMANDLINE_AG)
+            print(MISSING_COMMANDLINE_ARG)
         sys.exit()
 
     if arg[1] == COMMAND_LINE_ARGS[2]: # -crf
@@ -413,7 +415,7 @@ def handle_arguments(arg):
                 create_source_code(arg[3],"./",arg[2])
             else: print(NO_LANG,arg[3])
         else:
-            print(MISSING_COMMANDLINE_AG)
+            print(MISSING_COMMANDLINE_ARG)
         sys.exit()
 
     if arg[1] == COMMAND_LINE_ARGS[3]: # -diradd
@@ -448,7 +450,7 @@ def handle_arguments(arg):
                 write_file(arg[2]+"."+arg[3],"")
                 print(FILE_CREATED)
         else:
-            print(MISSING_COMMANDLINE_AG)
+            print(MISSING_COMMANDLINE_ARG)
         sys.exit()
 
     if arg[1] == COMMAND_LINE_ARGS[6]: # -v
@@ -459,7 +461,7 @@ def handle_arguments(arg):
         print(CREATOR_TEXT)
         sys.exit()
     
-    if arg[1] == COMMAND_LINE_ARGS[8]: # -cleancode
+    if arg[1] == COMMAND_LINE_ARGS[8]: # -cc
         if len(arg) == 2:
             print(NO_FILE_GIVEN)
         elif len(arg) == 3:
@@ -476,6 +478,23 @@ def handle_arguments(arg):
                 print(NO_FILE,arg[2])
 
 
+        sys.exit()
+
+    if arg[1] == COMMAND_LINE_ARGS[9]: # -txt
+        if len(arg) == 2:
+            print(MISSING_COMMANDLINE_ARG)
+        elif len(arg) == 3:
+            if check_file(arg[2]):
+                need_frewrite = input(FILE_EXISTS)
+                if need_frewrite.lower() == "y":
+                    write_file(arg[2]+".txt","Your text here")
+                else:
+                    print(SOURCE_CODE_CANCELED)  
+            else:
+                write_file(arg[2]+".txt","Your text here")
+                print(FILE_CREATED)
+        else :
+            print(MANY_ARGS)
         sys.exit()
 
     if arg[1] not in COMMAND_LINE_ARGS:
