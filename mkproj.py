@@ -2,7 +2,7 @@ import os
 import sys
 import shutil
 
-VERSION = "Mkproj version 1.0"
+VERSION = "Mkproj version 1.0.1"
 SUPP_LANG = ["java","py","c","cpp","cs","js","go","rs","rb","kt","ts","lua","lsp","scala","swift","php","html"]
 COMMAND_LINE_ARGS = ["-help","-cr","-crf","-diradd","-fileadd","-sl","-v","-creator","-cc","-txt"]
 
@@ -368,8 +368,6 @@ def create_proj(name,lang):
     print(name,PROJECT_CREATED)
 
 def check_for_singleline_comment(comment,lang):
-    print(comment,end='?\n')
-    print(len(comment))
     if comment[0] == COMMENT_SIGNS[lang][0]:
         return True
     return False
@@ -381,7 +379,7 @@ def fixfile(fromfile,tofile='',lang=''):
     for i in inputFromFile:
         if  len(i) == 0 :
             output.append(i)
-        elif  not check_for_singleline_comment(i.strip(),lang): 
+        else: 
             output.append(i)
 
     write_file(tofile,"\n".join(output))
@@ -513,8 +511,5 @@ def handle_arguments(arg):
 def main():
     handle_arguments(sys.argv)
     
-
-
-
 if __name__ == "__main__":
     main()
